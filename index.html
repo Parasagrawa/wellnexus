@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Untitled</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Futuristic Health Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1e1e2f, #2a2a3b);
+      color: white;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5em;
+      background: linear-gradient(to right, #00fff0, #00bfff);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(10px);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      outline: none;
+    }
+
+    button {
+      background: #00bfff;
+      border: none;
+      padding: 15px 25px;
+      color: white;
+      font-size: 1em;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .recommendations {
+      margin-top: 30px;
+      background-color: rgba(255,255,255,0.07);
+      padding: 20px;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Futuristic Health Assistant</h1>
+  <div class="container">
+    <div class="form-group">
+      <label>Health Status</label>
+      <input type="text" id="health" placeholder="e.g., Feeling tired, energetic..." />
+    </div>
+    <div class="form-group">
+      <label>Food Intake</label>
+      <textarea id="food" placeholder="e.g., Rice, fruits, junk food..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Sleep Cycle (hours)</label>
+      <input type="number" id="sleep" />
+    </div>
+    <div class="form-group">
+      <label>Exercise (minutes)</label>
+      <input type="number" id="exercise" />
+    </div>
+    <div class="form-group">
+      <label>Mental State</label>
+      <input type="text" id="mental" placeholder="e.g., Stressed, Calm..." />
+    </div>
+    <div class="form-group">
+      <label>Water Intake (liters)</label>
+      <input type="number" id="water" />
+    </div>
+    <button onclick="analyzeHealth()">Get Recommendations</button>
+
+    <div class="recommendations" id="output"></div>
+  </div>
+
+  <script>
+    function analyzeHealth() {
+      const health = document.getElementById("health").value;
+      const food = document.getElementById("food").value;
+      const sleep = parseFloat(document.getElementById("sleep").value);
+      const exercise = parseFloat(document.getElementById("exercise").value);
+      const mental = document.getElementById("mental").value;
+      const water = parseFloat(document.getElementById("water").value);
+
+      localStorage.setItem("healthData", JSON.stringify({ health, food, sleep, exercise, mental, water }));
+
+      let tips = [];
+
+      if (sleep < 6) tips.push("You should try sleeping at least 7-8 hours daily.");
+      else tips.push("Your sleep cycle looks great!");
+
+      if (exercise < 30) tips.push("Try to include at least 30 minutes of exercise.");
+      else tips.push("You're getting a good amount of exercise.");
+
+      if (water < 2) tips.push("Increase water intake to 2-3 liters.");
+      else tips.push("Great job staying hydrated!");
+
+      if (food.toLowerCase().includes("junk")) tips.push("Cut down on junk food and prefer fruits and veggies.");
+
+      if (mental.toLowerCase().includes("stress")) tips.push("Take time to meditate or relax your mind.");
+      else tips.push("Your mental health seems good today.");
+
+      const output = document.getElementById("output");
+      output.innerHTML = `<h3>Recommendations:</h3><ul>${tips.map(t => `<li>${t}</li>`).join('')}</ul>`;
+    }
+  </script>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
