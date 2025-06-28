@@ -1,0 +1,326 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Combined App</title>
+  <style>
+/* POWDER SOFT THEME - WELLNEXUS */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(to right, #e0c3fc, #8ec5fc);
+  background-attachment: fixed;
+  color: #333;
+  padding: 20px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.8em;
+  background: linear-gradient(to right, #9b74f3, #70c3ff);
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 30px;
+}
+
+.container {
+  max-width: 960px;
+  margin: auto;
+  padding: 35px;
+  border-radius: 20px;
+
+  /* 🌟 Glass Effect */
+  background: rgba(255, 255, 255, 0.15);   /* translucent white */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); /* soft shadow */
+  backdrop-filter: blur(12px);             /* glass blur */
+  -webkit-backdrop-filter: blur(12px);     /* safari support */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* border for edge glow */
+
+  transition: all 0.3s ease-in-out;
+}
+
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #444;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  color: #333;
+  outline: none;
+  font-size: 1em;
+  transition: background 0.2s ease;
+}
+
+input:focus,
+textarea:focus {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+button {
+  background: linear-gradient(90deg, #a18cd1, #fbc2eb);
+  border: none;
+  padding: 12px 24px;
+  color: #fff;
+  font-size: 1em;
+  font-weight: 500;
+  border-radius: 14px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(161, 140, 209, 0.4);
+}
+
+.recommendations,
+.goals {
+  margin-top: 30px;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.score {
+  font-weight: bold;
+  text-align: center;
+  margin-top: 15px;
+  color: #6a1b9a;
+  font-size: 1.2em;
+}
+
+.quote {
+  font-style: italic;
+  text-align: center;
+  color: #6b6b6b;
+  margin-top: 10px;
+}
+
+.goal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.timer {
+  font-weight: bold;
+  color: #e0c3fc)
+  margin-right: 10px;
+}
+
+  </style>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WellNexus Health Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>WellNexus Health Assistant</h1>
+  <div class="container">
+    <div class="form-group"><label>Sleep (hours)</label><input id="sleep" type="number" /></div>
+    <div class="form-group"><label>Exercise (minutes)</label><input id="exercise" type="number" /></div>
+    <div class="form-group"><label>Water Intake (liters)</label><input id="water" type="number" /></div>
+    <div class="form-group"><label>Food Intake</label><input id="food" type="text" placeholder="e.g., junk, fruits..." /></div>
+    <div class="form-group"><label>Mental State</label><input id="mental" type="text" placeholder="e.g., stressed, calm..." /></div>
+    <button onclick="analyzeHealth()">Get Recommendations</button>
+    <div class="recommendations" id="output"></div>
+
+    <div class="goals">
+      <h2>🎯 Set Your Goals</h2>
+      <div class="form-group"><label>Task</label><input id="task" type="text" placeholder="e.g., Drink Water" /></div>
+      <div class="form-group"><label>Remind me in (minutes)</label><input id="minutes" type="number" /></div>
+      <button onclick="addGoal()">Add Task</button>
+      <div id="goalList"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+  <script>
+const tipsData = {
+  sleep: [
+    "Sleep by 10pm daily", "Avoid screen time before bed", "Keep a fixed sleep routine",
+    "Use blackout curtains", "Avoid caffeine after 5pm", "Try deep breathing",
+    "Keep room dark and quiet", "Stretch before bed", "Read instead of scrolling",
+    "Don't overthink at night", "Keep phone away from bed", "Drink warm milk",
+    "Take warm shower", "Use eye mask", "Avoid late snacks", "Set alarm same time daily",
+    "Use calm background music", "Turn on night light mode", "Meditate 2 minutes",
+    "Track sleep with app"
+  ],
+  exercise: [
+    "Walk 10k steps", "Do yoga in morning", "Take stairs", "Stretch every 2 hours",
+    "Do 20 squats", "Dance 5 minutes", "Try a fitness app", "Do plank challenge",
+    "Try skipping rope", "Join local gym", "Cycle on weekends", "Jumping jacks 1 min",
+    "Push-ups daily", "Walk while calling", "Home workout 10 mins", "Climb stairs fast",
+    "Do chair squats", "Wall sit 30 seconds", "Try pilates", "Hike once a month"
+  ],
+  water: [
+    "Drink a glass hourly", "Start day with 2 glasses", "Track with app", "Use glass bottle",
+    "Add lemon or mint", "Hydrate before meals", "Avoid soda", "Set reminders",
+    "Keep bottle with you", "Sip slowly", "Drink 3L/day", "Hydrate post workout",
+    "Eat water-rich fruits", "Refill bottle 5x/day", "Avoid sugary drinks", "No energy drinks",
+    "Use marked bottle", "Use water reminder app", "Coconut water sometimes", "Cold water after walk"
+  ],
+  food: [
+    "Eat green veggies", "Avoid junk", "Add fruits to breakfast", "Snack on nuts",
+    "Use smaller plates", "Eat protein-rich meals", "No late-night snacks", "Avoid fried foods",
+    "Eat at fixed times", "Mindful eating", "Chew properly", "Avoid sugary drinks",
+    "Homemade food only", "Plan meals weekly", "Track calories", "Add sprouts & salad",
+    "Cut processed foods", "Drink water before meals", "Try meal prepping", "Eat slow"
+  ],
+  mental: [
+    "Meditate 5 mins", "Write journal", "Talk to a friend", "Take deep breaths",
+    "Avoid multitasking", "Read calming book", "Walk in nature", "Smile at strangers",
+    "Practice gratitude", "Do one kind act", "Listen to calm music", "Stretch silently",
+    "Avoid screens 1hr daily", "Digital detox once a week", "Forgive someone",
+    "Write what you're grateful for", "Sleep 8 hours", "Pause and reflect", "Declutter workspace", "Stay off social media"
+  ]
+};
+
+const quotes = [
+  "Take care of your body — it's the only place you have to live.",
+  "Small steps every day create big results.",
+  "Your health is your real wealth.",
+  "Self-care is not selfish.",
+  "Be kind to your mind.",
+  "Hydration and rest beat stress.",
+  "Eat well, feel well.",
+  "Healthy life, happy mind.",
+  "Balance is the key to wellness.",
+  "You are stronger than you think."
+];
+
+// 💡 Function to get N random tips from an array
+function randomTips(arr, count = 5) {
+  const shuffled = [...arr].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
+}
+
+// 💪 Main function
+function analyzeHealth() {
+  const sleep = +document.getElementById("sleep").value;
+  const ex = +document.getElementById("exercise").value;
+  const water = +document.getElementById("water").value;
+  const food = document.getElementById("food").value.toLowerCase();
+  const mental = document.getElementById("mental").value.toLowerCase();
+
+  let tips = [];
+
+  // Add 5 tips per category if condition is not good, else single OK message
+  tips.push(...(sleep < 6 ? randomTips(tipsData.sleep, 5) : ["✅ Sleep is good!"]));
+  tips.push(...(ex < 30 ? randomTips(tipsData.exercise, 5) : ["✅ Great exercise!"]));
+  tips.push(...(water < 2 ? randomTips(tipsData.water, 5) : ["✅ Hydration on point!"]));
+  if (food.includes("junk")) {
+    tips.push(...randomTips(tipsData.food, 5));
+  }
+  tips.push(...(mental.includes("stress") || mental.includes("tired")
+    ? randomTips(tipsData.mental, 5)
+    : ["✅ Mind is peaceful!"]));
+
+  const score = Math.round(((sleep >= 7) + (ex >= 30) + (water >= 2)) / 3 * 100);
+
+  document.getElementById("output").innerHTML = `
+    <ul>${tips.map(t => `<li>${t}</li>`).join('')}</ul>
+    <p class="score">Health Score: ${score}%</p>
+    <p class="quote">"${quotes[Math.floor(Math.random() * quotes.length)]}"</p>
+  `;
+}
+
+// ⏰ Goal Reminder System
+let goalId = 0;
+function addGoal() {
+  const taskText = document.getElementById("task").value;
+  const mins = +document.getElementById("minutes").value;
+  if (!taskText || mins <= 0) {
+    alert("Valid task and time needed!");
+    return;
+  }
+
+  const id = ++goalId;
+  const end = Date.now() + mins * 60000;
+  const div = document.createElement("div");
+  div.className = "goal-row";
+  div.id = "g" + id;
+  const timerSpan = document.createElement("span");
+  timerSpan.className = "timer";
+  div.appendChild(timerSpan);
+  div.appendChild(document.createTextNode(taskText));
+  const btn = document.createElement("button");
+  btn.textContent = "Remove";
+  btn.onclick = () => {
+    clearInterval(interval);
+    div.remove();
+  };
+  div.appendChild(btn);
+  document.getElementById("goalList").appendChild(div);
+
+    const interval = setInterval(() => {
+    const diff = end - Date.now();
+    if (diff <= 0) {
+      timerSpan.textContent = "⏰ Time's up!";
+      beepTone(350, 1300);
+      clearInterval(interval);
+      alert(`⏰ ${task}`);
+    } else {
+      const m = Math.floor(diff / 60000),
+        s = Math.floor((diff % 60000) / 1000);
+      timerSpan.textContent = `${m}m ${s}s`;
+    }
+  }, 1000);
+}
+
+function beepTone(freq = 440, duration = 200) {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.frequency.value = freq;
+  osc.type = "sine";
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start();
+  osc.stop(ctx.currentTime + duration / 1000);
+  osc.onended = () => ctx.close();
+}
+
+  </script>
+</body>
+</html>
